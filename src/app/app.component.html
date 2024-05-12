@@ -1,5 +1,13 @@
 <div class="grid h-screen place-items-center">
-  <div class="font-bold text-3xl">
-    Fyle Internship Challenge
+  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm.value)">
+    <div class="flex gap-5 text-3xl">
+      <input type="text" placeholder="Enter GITHUB username..." class="box-border drop-shadow-lg rounded-lg border-[1px] border-gray-300 p-2" name="searchTerm" ngModel>
+      <button class="drop-shadow-lg box-border border-gray-300 border-2 px-3 py-2 rounded-lg transition-transform " (click)="scaleButton()">Search</button>
+    </div>
+  </form>
+
+  <div class="" *ngIf="userData">
+    <h2>{{userData.name}}</h2>
+    <img src="{{userData.avatar_url}}" alt="avatar" class="w-20 h-20 rounded-full">
   </div>
 </div>
