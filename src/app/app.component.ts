@@ -51,6 +51,7 @@ export interface SearchForm {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  userRepos: any;
   userData: any;
 
   // Inject ApiService
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // Example usage of apiService
-    this.apiService.getUser('johnpapa').subscribe(console.log);
+    // this.apiService.getUser('johnpapa').subscribe(console.log);
+    this.searchGitHubAPI('johnpapa')
   }
 
   // Function to add scaling effect
@@ -83,11 +85,13 @@ export class AppComponent implements OnInit {
   searchGitHubAPI(searchTerm: string) {
     const url = `https://api.github.com/search/repositories?q=${searchTerm}`;
     this.apiService.getUser(searchTerm).subscribe(response=>{
+      console.log(response)
       this.userData=response;
-      console.log(this.userData)
       this.apiService.getRepos(this.userData.repos_url).subscribe(response=>{
         console.log(response)
+        this.userRepos=response;
       })
+
     })
     // Example usage of HttpClient to make GET request
     // this.apiService.get(url).subscribe(response => {

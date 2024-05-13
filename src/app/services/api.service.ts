@@ -13,6 +13,8 @@ export class ApiService {
 
   getUser(githubUsername: string) {
     return this.httpClient.get(`https://api.github.com/users/${githubUsername}`);
+    // const result=this.httpClient.get(`https://api.github.com/users/${githubUsername}`);
+    // return result;
   }
 
   getRepos(githubRepo: string){
