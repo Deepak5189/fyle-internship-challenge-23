@@ -1,0 +1,56 @@
+<div class="grid h-screen place-items-center p-5">
+  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm.value)">
+    <div class="flex gap-5 text-3xl">
+      <input type="text" placeholder="Enter GITHUB username..." class="box-border drop-shadow-lg rounded-lg border-[1px] border-gray-300 p-2 focus:outline-none" name="searchTerm" ngModel>
+      <button class="drop-shadow-lg box-border border-gray-300 border-2 px-3 py-2 rounded-lg transition-transform " (click)="scaleButton()">Search</button>
+    </div>
+  </form>
+
+  <div class="w-full px-10 py-5" *ngIf="userData">
+    <div class="flex gap-10 w-full">
+      <img src="{{userData.avatar_url}}" alt="avatar" class="w-52 h-52 rounded-full">
+      <div class="flex flex-col justify-center gap-3">
+        <h2 class="text-3xl font-semibold ">{{userData.name}}</h2>
+        <div class="">{{userData.bio}}</div>
+        <div class="flex gap-5">
+          <img src="/" alt="loc">
+          <div>{{userData.location}}</div>
+        </div>
+        <pre class="flex ">twitter: <a href="'https://twitter.com/' + {{userData.url}}">https://twitter.com/{{userData.twitter_username}}</a></pre>
+      </div>
+    </div>
+    <div class="flex gap-5">
+      <img src="/" alt="lnk">
+      <a href={userData.url}>{{userData.url}}</a>
+    </div>
+    <div class="flex justify-between w-full">
+      <div>{{ loading ? 'Loading repos...' : 'Repos' }}</div>
+      <div class="float-right">
+        Repos per page: <select [(ngModel)]="perPage" (ngModelChange)="onPerPageChange()">
+          <option *ngFor="let option of perPageOptions" [value]="option.value">{{ option.label }}</option>
+        </select>             
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-4 mt-10 overflow-hidden">
+      <ng-container  *ngFor="let repo of userRepos">
+        <div class="p-4 border-2 border-gray-300 drop-shadow-lg box-border rounded-lg">
+          <h1 class="text-2xl font-semibold">{{repo.name}}</h1>
+          <h4 class="">{{repo.description}}</h4>
+          <div class="flex gap-2 p-2">
+            <ng-container *ngFor="let topic of repo.topics">
+              <div class="bg-blue-500 px-2 py-1 font-semibold rounded-md text-white flex justify-center items-center">{{topic}}</div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+        <!-- Pagination buttons -->
+    <div class="flex justify-center mt-5">
+      <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md mr-2" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div> 
+    <!-- Current page number and total pages -->
+    <p class="text-center mt-2">Page {{ currentPage }} of {{ totalPages }}</p>
+  </div>
+</div>
